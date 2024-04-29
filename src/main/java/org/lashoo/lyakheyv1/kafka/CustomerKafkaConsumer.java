@@ -8,6 +8,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.lashoo.lyakheyv1.DTO.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -19,12 +20,14 @@ public class CustomerKafkaConsumer {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerKafkaConsumer.class.getName());
 
-    private String topicName = "testLocal";
+    @Value("${kafka.consumer.topic.name}")
+    private String topicName;
 
     ObjectMapper obj = new ObjectMapper();
 
-    @KafkaListener(topics = "testLocal", containerFactory = "kafkaListenerContainerFactory", groupId = "test_group")
+    @KafkaListener(topics = "#{'${kafka.consumer.topic.name}'}", containerFactory = "kafkaListenerContainerFactory", groupId = "test_group")
     public void consumeKafkaMessage(ConsumerRecord<String, Object> consumerRecord) throws JsonProcessingException {
+        logger.info("Kafka Topic name is " + topicName);
 //        logger.info("consumer invoked from CustomerKafkaConsumer");
 //        consumer.subscribe(Collections.singleton(topicName));
         ObjectMapper objectMapper = new ObjectMapper();
