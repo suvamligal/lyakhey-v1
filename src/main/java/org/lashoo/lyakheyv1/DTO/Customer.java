@@ -5,6 +5,21 @@ import java.util.List;
 
 public record Customer(int id, String name, String username, String email, String password, List<Address> address) implements Serializable {
 
+    @Override
+    public String toString() {
+        return "{" +
+                "\"id\":" + id +
+                ", \"name\":\"" + name + "\"" +
+                ", \"username\":\"" + username + "\"" +
+                ", \"email\":\"" + email + "\""  +
+                ", \"password\":\"" + password + "\""  +
+                ", \"address\":" + address +
+                "}";
+
+//        "cities\":[\"Amsterdam\", \"Tamassint\"]}";
+
+    }
+
     public static class CustomerBuilder {
         private int id;
         private String name;
@@ -52,8 +67,17 @@ public record Customer(int id, String name, String username, String email, Strin
         return new CustomerBuilder();
     }
 
-        public record Address(String streetName, String city, String State, String zipcode){};
-
+    public record Address(String streetName, String city, String State, String zipcode) {
+        @Override
+        public String toString() {
+            return "{" +
+                    "\"streetName\": \"" + streetName + "\"" +
+                    ", \"city\":\"" + city + "\"" +
+                    ", \"State\":\"" + State + "\"" +
+                    ", \"zipcode\":\"" + zipcode + "\"" +
+                    "}";
+        }
+    }
     }
 
 
